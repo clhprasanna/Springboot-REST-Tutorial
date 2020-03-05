@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mjc.rest.DataStore;
 import com.mjc.rest.domain.User;
+import com.mjc.rest.exception.UserNotFoundException;
 
 @RestController
 @RequestMapping("/user")
@@ -44,6 +45,9 @@ public class UserRest {
 	private ResponseEntity<User> getUserById(@PathVariable String userId) {
 		
 		User user = DataStore.getUserData().get(userId);
+		
+		if(user == null)
+			throw new UserNotFoundException();
 		
 		return ResponseEntity.ok(user);
 	}
